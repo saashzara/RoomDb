@@ -6,6 +6,8 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 
+import sys.almas.roomdb.convertor.MarkerDao;
+import sys.almas.roomdb.convertor.MarkerEntity;
 import sys.almas.roomdb.interfaces.SampleDao;
 import sys.almas.roomdb.model.SampleModel;
 
@@ -14,13 +16,14 @@ import sys.almas.roomdb.model.SampleModel;
  * @version 1
  * @see android.arch.persistence.room.RoomDatabase
  */
-@Database(entities = {SampleModel.class }, version = 1, exportSchema = false)
+@Database(entities = {MarkerEntity.class,SampleModel.class }, version = 1, exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase
 {
 
     private static AppDatabase INSTANCE;
     public abstract SampleDao sampleDao();
+    public abstract MarkerDao markerDao();
 
     public static AppDatabase getAppDatabase(Context context)
     {

@@ -1,12 +1,17 @@
 package sys.almas.roomdb;
 
+ import sys.almas.roomdb.convertor.MarkerEntity;
+ import sys.almas.roomdb.convertor.converter.MarkerItemsModel;
  import sys.almas.roomdb.model.SampleModel;
 
 import android.os.Bundle;
  import android.support.v7.app.AppCompatActivity;
  import android.util.Log;
 
-import java.util.List;
+ import com.google.android.gms.maps.model.LatLng;
+
+ import java.util.ArrayList;
+ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +42,27 @@ public class MainActivity extends AppCompatActivity {
         AppDatabase.getAppDatabase(this).sampleDao().deleteById(2);
         print();
 
+
+        MarkerEntity object=new MarkerEntity(new LatLng(0,0));
+        object.setTitle("one object");
+        List<MarkerItemsModel> items=new ArrayList<>();
+        items.add(new MarkerItemsModel(0,"first","500",""));
+        items.add(new MarkerItemsModel(1,"second","600",""));
+        items.add(new MarkerItemsModel(2,"third","550",""));
+        items.add(new MarkerItemsModel(3,"fourth","800",""));
+        object.setItems(items);
+        AppDatabase.getAppDatabase(this).markerDao().insert(object);
+
+
+        List<MarkerEntity> marker = AppDatabase.getAppDatabase(this).markerDao().getAllMarkers();
+
+        for (MarkerEntity markerEntity : marker) {
+            Log.d("main_activity2","name="+markerEntity.getTitle());
+            Log.d("main_activity2","size item ="+markerEntity.getItems().size());
+            for (MarkerItemsModel markerItemsModel : markerEntity.getItems()) {
+                Log.d("main_activity2","item="+markerItemsModel.getTitle());
+            }
+        }
     }
 
     private void print() {
